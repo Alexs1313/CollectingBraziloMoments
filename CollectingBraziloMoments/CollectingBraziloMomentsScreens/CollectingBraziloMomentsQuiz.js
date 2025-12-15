@@ -13,16 +13,24 @@ import { collectingBraziloQuizData } from '../CollectingBraziloMomentsData/colle
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
+const getRandomBraziloQuestions = (selData, currCount = 10) => {
+  const shuffledQuestions = [...selData].sort(() => 0.5 - Math.random());
+  return shuffledQuestions.slice(0, currCount);
+};
+
 const CollectingBraziloMomentsQuiz = () => {
   const [indexBraziloMoments, setIndexBraziloMoments] = useState(0);
   const [scoreBraziloMoments, setScoreBraziloMoments] = useState(0);
   const [selectedBraziloMoments, setSelectedBraziloMoments] = useState(null);
   const [showResultBraziloMoments, setShowResultBraziloMoments] =
     useState(false);
+  const [quizBraziloMoments, setQuizBraziloMoments] = useState(() =>
+    getRandomBraziloQuestions(collectingBraziloQuizData, 10),
+  );
 
   const navigationBraziloMoments = useNavigation();
 
-  const currentBraziloMoments = collectingBraziloQuizData[indexBraziloMoments];
+  const currentBraziloMoments = quizBraziloMoments[indexBraziloMoments];
 
   const onAnswerBraziloMoments = answerBraziloMoments => {
     if (selectedBraziloMoments) return;
@@ -36,13 +44,16 @@ const CollectingBraziloMomentsQuiz = () => {
   };
 
   const onNextBraziloMoments = () => {
-    if (indexBraziloMoments + 1 >= collectingBraziloQuizData.length) {
+    if (indexBraziloMoments + 1 >= quizBraziloMoments.length) {
       Alert.alert(
         '🎉 Great job, Traveler!',
-        `You scored ${scoreBraziloMoments} out of ${collectingBraziloQuizData.length}.`,
+        `You scored ${scoreBraziloMoments} out of ${quizBraziloMoments.length}.\n\nKeep exploring see if you can beat your record next time`,
         [{ text: 'OK' }],
       );
 
+      setQuizBraziloMoments(
+        getRandomBraziloQuestions(collectingBraziloQuizData, 10),
+      );
       setIndexBraziloMoments(0);
       setScoreBraziloMoments(0);
       setSelectedBraziloMoments(null);
@@ -70,11 +81,14 @@ const CollectingBraziloMomentsQuiz = () => {
           text: 'Exit',
           style: 'destructive',
           onPress: () => {
+            setQuizBraziloMoments(
+              getRandomBraziloQuestions(collectingBraziloQuizData, 10),
+            );
             setIndexBraziloMoments(0);
             setScoreBraziloMoments(0);
             setSelectedBraziloMoments(null);
             setShowResultBraziloMoments(false);
-            navigationBraziloMoments.goBack('');
+            navigationBraziloMoments.goBack();
           },
         },
         { text: 'Resume' },
@@ -88,8 +102,7 @@ const CollectingBraziloMomentsQuiz = () => {
       <View style={styles.containerBraziloMoments}>
         <View style={styles.headerBraziloMoments}>
           <Text style={styles.counterBraziloMoments}>
-            Question {indexBraziloMoments + 1}/
-            {collectingBraziloQuizData.length}
+            Question {indexBraziloMoments + 1}/ 10
           </Text>
 
           <TouchableOpacity
