@@ -75,6 +75,29 @@ const CollectingBraziloMomentsLocations = () => {
     }
   };
 
+  const toggleSavedBraziloMoments = async id => {
+    try {
+      let updatedSavedBraziloMoments = [];
+
+      if (savedIdsBraziloMoments.includes(id)) {
+        updatedSavedBraziloMoments = savedIdsBraziloMoments.filter(
+          savedId => savedId !== id,
+        );
+      } else {
+        updatedSavedBraziloMoments = [...savedIdsBraziloMoments, id];
+      }
+
+      await AsyncStorage.setItem(
+        'brazilo_saved_locations',
+        JSON.stringify(updatedSavedBraziloMoments),
+      );
+
+      loadSavedBraziloMoments();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const renderItemBraziloMoments = ({ item }) => {
     const isSavedBraziloMoments = savedIdsBraziloMoments.includes(item.id);
 
@@ -115,10 +138,21 @@ const CollectingBraziloMomentsLocations = () => {
         </View>
 
         <View style={styles.actionsBraziloMoments}>
-          <TouchableOpacity style={styles.heartBtnBraziloMoments}>
-            <Text style={styles.heartTextBraziloMoments}>
-              {isSavedBraziloMoments ? '♥' : '♡'}
-            </Text>
+          <TouchableOpacity
+            style={styles.heartBtnBraziloMoments}
+            onPress={() => toggleSavedBraziloMoments(item.id)}
+          >
+            {isSavedBraziloMoments ? (
+              <Image
+                source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloMomentsHeartFill.png')}
+                style={{ width: 16, height: 16 }}
+              />
+            ) : (
+              <Image
+                source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloMomentsHeart.png')}
+                style={{ width: 16, height: 16 }}
+              />
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -136,6 +170,16 @@ const CollectingBraziloMomentsLocations = () => {
 
   return (
     <CollectingBraziloMomentsBackground>
+      <Image
+        source={require('../../assets/collectingBraziloMomentsImgs/braziloBall.png')}
+        style={{
+          position: 'absolute',
+          bottom: 20,
+          right: -130,
+          width: 340,
+          height: 340,
+        }}
+      />
       <View style={styles.containerBraziloMoments}>
         <Text style={styles.screenTitleBraziloMoments}>
           Explore the Beauty of Brazil
@@ -186,16 +230,18 @@ const CollectingBraziloMomentsLocations = () => {
           />
         </View>
 
-        <FlatList
-          data={filteredLocationsBraziloMoments}
-          scrollEnabled={false}
-          keyExtractor={item => item.id}
-          renderItem={renderItemBraziloMoments}
-          contentContainerStyle={{
-            padding: 16,
-          }}
-          showsVerticalScrollIndicator={false}
-        />
+        <View style={{ zIndex: 20 }}>
+          <FlatList
+            data={filteredLocationsBraziloMoments}
+            scrollEnabled={false}
+            keyExtractor={item => item.id}
+            renderItem={renderItemBraziloMoments}
+            contentContainerStyle={{
+              padding: 16,
+            }}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
       </View>
     </CollectingBraziloMomentsBackground>
   );
@@ -228,6 +274,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 10,
     alignItems: 'center',
+    justifyContent: 'center',
   },
 
   categoryButtonActiveBraziloMoments: {
@@ -239,12 +286,14 @@ const styles = StyleSheet.create({
 
   categoryButtonTextBraziloMoments: {
     color: '#fff',
-    fontSize: 13,
+    fontSize: 12,
+    textAlign: 'center',
+    paddingHorizontal: 5,
   },
 
   categoryButtonTextActiveBraziloMoments: {
     color: '#000',
-    fontSize: 13,
+    fontSize: 12,
   },
 
   searchBoxBraziloMoments: {

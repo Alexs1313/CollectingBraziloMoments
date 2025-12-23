@@ -80,6 +80,16 @@ const CollectingBraziloMomentsLocationsDet = ({ route }) => {
       source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloMomentsBg.png')}
       style={{ flex: 1 }}
     >
+      <Image
+        source={require('../../assets/collectingBraziloMomentsImgs/braziloBall.png')}
+        style={{
+          position: 'absolute',
+          bottom: 20,
+          right: -90,
+          width: 210,
+          height: 210,
+        }}
+      />
       <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         <View>
           <Image source={location.image} style={styles.imageBraziloMoments} />
@@ -109,9 +119,17 @@ const CollectingBraziloMomentsLocationsDet = ({ route }) => {
             onPress={toggleSaveBraziloMoments}
             activeOpacity={0.6}
           >
-            <Text style={styles.heartTextBraziloMoments}>
-              {isSavedBraziloMoments ? '♥' : '♡'}
-            </Text>
+            {isSavedBraziloMoments ? (
+              <Image
+                source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloMomentsHeartFill.png')}
+                style={{ width: 24, height: 24 }}
+              />
+            ) : (
+              <Image
+                source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloMomentsHeart.png')}
+                style={{ width: 24, height: 24 }}
+              />
+            )}
           </TouchableOpacity>
         </View>
 

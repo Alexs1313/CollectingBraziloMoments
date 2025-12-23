@@ -1,7 +1,18 @@
-import React, { useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useRef, useEffect, useCallback } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Platform,
+} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 
 import CollectingBraziloMomentsBackground from '../CollectingBraziloMomentsComponents/CollectingBraziloMomentsBackground';
 import { collectingBraziloMomentsLocs } from '../CollectingBraziloMomentsData/collectingBraziloMomentsLocs';
@@ -13,21 +24,23 @@ const CollectingBraziloMomentsMap = () => {
 
   const focusLocationBraziloMoments = routeBraziloMoments.params?.focusLocation;
 
-  useEffect(() => {
-    if (focusLocationBraziloMoments && mapRefBraziloMoments.current) {
-      setTimeout(() => {
-        mapRefBraziloMoments.current.animateToRegion(
-          {
-            latitude: focusLocationBraziloMoments.latitude,
-            longitude: focusLocationBraziloMoments.longitude,
-            latitudeDelta: 0.4,
-            longitudeDelta: 0.4,
-          },
-          600,
-        );
-      }, 300);
-    }
-  }, [focusLocationBraziloMoments]);
+  useFocusEffect(
+    useCallback(() => {
+      if (focusLocationBraziloMoments && mapRefBraziloMoments.current) {
+        setTimeout(() => {
+          mapRefBraziloMoments.current.animateToRegion(
+            {
+              latitude: focusLocationBraziloMoments.latitude,
+              longitude: focusLocationBraziloMoments.longitude,
+              latitudeDelta: 0.4,
+              longitudeDelta: 0.4,
+            },
+            600,
+          );
+        }, 300);
+      }
+    }, [focusLocationBraziloMoments]),
+  );
 
   const openLocationBraziloMoments = selectedLocation => {
     navigationBraziloMoments.navigate('CollectingBraziloMomentsLocationsDet', {
@@ -84,11 +97,12 @@ const CollectingBraziloMomentsMap = () => {
                   style={styles.photoMarkerImageBraziloMoments}
                 />
               </View>
-
-              <Image
-                source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloBadge.png')}
-                style={styles.markerBadgeBraziloMoments}
-              />
+              {Platform.OS === 'ios' && (
+                <Image
+                  source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloBadge.png')}
+                  style={styles.markerBadgeBraziloMoments}
+                />
+              )}
             </Marker>
           ))}
         </MapView>

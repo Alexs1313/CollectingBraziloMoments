@@ -199,6 +199,16 @@ const CollectingBraziloMomentsMoments = () => {
 
   return (
     <CollectingBraziloMomentsBackground>
+      <Image
+        source={require('../../assets/collectingBraziloMomentsImgs/braziloBall.png')}
+        style={{
+          position: 'absolute',
+          bottom: 20,
+          right: -130,
+          width: 340,
+          height: 340,
+        }}
+      />
       <View style={styles.containerBraziloMoments}>
         <Text style={styles.titleBraziloMoments}>
           Collect your travel moments

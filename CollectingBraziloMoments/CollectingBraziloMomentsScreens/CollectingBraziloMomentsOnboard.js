@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import CollectingBraziloMomentsBackground from '../CollectingBraziloMomentsComponents/CollectingBraziloMomentsBackground';
 import LinearGradient from 'react-native-linear-gradient';
 import { useState } from 'react';
@@ -18,17 +25,60 @@ const CollectingBraziloMomentsOnboard = () => {
     <CollectingBraziloMomentsBackground>
       <View style={styles.braziloMomentsContainer}>
         {currentBraziloIndex === 0 ? (
-          <Image
-            source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloMomentsOnb1.png')}
-          />
+          <View>
+            <Image
+              source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloMomentsOnb1.png')}
+            />
+            {Platform.OS === 'android' && (
+              <Image
+                source={require('../../assets/collectingBraziloMomentsImgs/braziloBall.png')}
+                style={{
+                  position: 'absolute',
+                  top: -120,
+                  right: -120,
+                  width: 240,
+                  height: 240,
+                }}
+              />
+            )}
+          </View>
         ) : currentBraziloIndex === 1 ? (
-          <Image
-            source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloMomentsOnb2.png')}
-          />
+          <View>
+            <Image
+              source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloMomentsOnb2.png')}
+              style={{ zIndex: 1 }}
+            />
+            {Platform.OS === 'android' && (
+              <Image
+                source={require('../../assets/collectingBraziloMomentsImgs/braziloBall.png')}
+                style={{
+                  position: 'absolute',
+                  bottom: -20,
+                  left: -150,
+                  width: 240,
+                  height: 240,
+                }}
+              />
+            )}
+          </View>
         ) : (
-          <Image
-            source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloMomentsOnb3.png')}
-          />
+          <View>
+            <Image
+              source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloMomentsOnb3.png')}
+            />
+            {Platform.OS === 'android' && (
+              <Image
+                source={require('../../assets/collectingBraziloMomentsImgs/braziloBall.png')}
+                style={{
+                  position: 'absolute',
+                  top: -120,
+                  right: -120,
+                  width: 240,
+                  height: 240,
+                }}
+              />
+            )}
+          </View>
         )}
 
         <View style={styles.braziloMomentsBottomContainer}>

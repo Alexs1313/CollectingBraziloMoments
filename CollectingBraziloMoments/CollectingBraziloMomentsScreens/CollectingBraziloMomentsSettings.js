@@ -8,6 +8,7 @@ import {
   Alert,
   Image,
   Linking,
+  Platform,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -56,6 +57,16 @@ const CollectingBraziloMomentsSettings = () => {
 
   return (
     <CollectingBraziloMomentsBackground>
+      <Image
+        source={require('../../assets/collectingBraziloMomentsImgs/braziloBall.png')}
+        style={{
+          position: 'absolute',
+          bottom: 20,
+          right: -130,
+          width: 340,
+          height: 340,
+        }}
+      />
       <View style={styles.containerBraziloMoments}>
         <Text style={styles.titleBraziloMoments}>Settings</Text>
 
@@ -69,20 +80,22 @@ const CollectingBraziloMomentsSettings = () => {
           />
         </View>
 
-        <TouchableOpacity
-          style={styles.cardBraziloMoments}
-          activeOpacity={0.7}
-          onPress={() =>
-            Linking.openURL(
-              'https://apps.apple.com/us/app/collecting-brazilo-moments/id6756579577',
-            )
-          }
-        >
-          <Text style={styles.cardTextBraziloMoments}>Share the app</Text>
-          <Image
-            source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloShr.png')}
-          />
-        </TouchableOpacity>
+        {Platform.OS === 'ios' && (
+          <TouchableOpacity
+            style={styles.cardBraziloMoments}
+            activeOpacity={0.7}
+            onPress={() =>
+              Linking.openURL(
+                'https://apps.apple.com/us/app/collecting-brazilo-moments/id6756579577',
+              )
+            }
+          >
+            <Text style={styles.cardTextBraziloMoments}>Share the app</Text>
+            <Image
+              source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloShr.png')}
+            />
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity
           style={styles.cardBraziloMoments}
@@ -94,18 +107,19 @@ const CollectingBraziloMomentsSettings = () => {
             source={require('../../assets/collectingBraziloMomentsImgs/collectingBraziloReset.png')}
           />
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.cardBraziloMoments}
-          activeOpacity={0.7}
-          onPress={() =>
-            Linking.openURL(
-              'https://www.termsfeed.com/live/396a586a-1e13-4d9c-af45-e7d853c97672',
-            )
-          }
-        >
-          <Text style={styles.cardTextBraziloMoments}>Terms of Use</Text>
-        </TouchableOpacity>
+        {Platform.OS === 'ios' && (
+          <TouchableOpacity
+            style={styles.cardBraziloMoments}
+            activeOpacity={0.7}
+            onPress={() =>
+              Linking.openURL(
+                'https://www.termsfeed.com/live/396a586a-1e13-4d9c-af45-e7d853c97672',
+              )
+            }
+          >
+            <Text style={styles.cardTextBraziloMoments}>Terms of Use</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </CollectingBraziloMomentsBackground>
   );
